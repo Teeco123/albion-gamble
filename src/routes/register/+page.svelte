@@ -15,4 +15,5 @@
 			<option value="Asia">Asia</option>
 		</select>
 	</label>
+	<button type="submit">Register</button>
 </form>
