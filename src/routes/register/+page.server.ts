@@ -1,6 +1,5 @@
 import { firestore } from '$lib/firebase.js';
 import { query, collection, where, getDocs, addDoc, serverTimestamp } from 'firebase/firestore';
-import { fail } from '@sveltejs/kit';
 
 export const actions = {
 	register: async ({ request }) => {
@@ -10,7 +9,7 @@ export const actions = {
 		const server = data.get('server');
 
 		if (!username || !password || !server) {
-			return fail(400, { missing: true });
+			return { missing: true };
 		}
 
 		let userData;
