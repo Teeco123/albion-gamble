@@ -1,4 +1,4 @@
-import { firestore } from '$lib/firebase.js';
+import { firestore } from '$lib/firebase/firebase.js';
 import { query, collection, where, getDocs, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export const actions = {
