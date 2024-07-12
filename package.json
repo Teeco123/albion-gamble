@@ -32,6 +32,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"firebase": "^10.12.3"
+		"firebase": "^10.12.3",
+		"pusher": "^5.2.0",
+		"pusher-js": "^8.4.0-rc2"
 	}
 }
