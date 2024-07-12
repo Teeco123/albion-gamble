@@ -1,11 +1,17 @@
 import { firestore } from '$lib/firebase.js';
 import { query, collection, where, getDocs, addDoc, serverTimestamp } from 'firebase/firestore';
+import { fail } from '@sveltejs/kit';
+
 export const actions = {
 	register: async ({ request }) => {
 		const data = await request.formData();
 		const username = data.get('username');
 		const password = data.get('password');
 		const server = data.get('server');
+
+		if (!username || !password || !server) {
+			return fail(400, { missing: true });
+		}
 
 		let userData;
 		const userQuery = query(
@@ -17,6 +23,10 @@ export const actions = {
 		userSnapshot.forEach((userDoc) => {
 			userData = userDoc.data();
 		});
+
+		if (userData) {
+			return { exists: true };
+		}
 
 		if (!userData && password && username) {
 			await addDoc(collection(firestore, 'users'), {
