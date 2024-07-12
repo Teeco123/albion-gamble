@@ -1,5 +1,13 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import { pusherClient } from '$lib/pusher/client';
+
+	const channel = pusherClient.subscribe('channel');
+	channel.bind('event', function (data: any) {
+		console.log(data);
+	});
+</script>
+
+<div></div>
 
 <style lang="scss">
 </style>
