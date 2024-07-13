@@ -1,4 +1,5 @@
 import { firestore } from '$lib/firebase/index.js';
+import { redirect } from '@sveltejs/kit';
 import { query, collection, where, getDocs, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export const actions = {
@@ -36,5 +37,6 @@ export const actions = {
 				balance: 0
 			});
 		}
+		throw redirect(302, '/login');
 	}
 };
