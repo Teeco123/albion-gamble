@@ -16,19 +16,21 @@
 <header>
 	<div class="logo">Albion Gamble</div>
 	<div class="userinfo">
-		{#if data.userId}
-			<div class="balance">
-				<p>{$user?.balance}</p>
-				<img src="/icons/coin.png" alt="coin" />
-			</div>
-			<button class="logout">
-				<img src="/icons/logout.png" alt="key" />
-				<p>Logout</p>
-			</button>
-		{:else}
-			<button class="login"><img src="/icons/login.png" alt="login" />Login</button>
-			<button class="register"><img src="/icons/key.png" alt="key" />Register</button>
-		{/if}
+		<form method="POST">
+			{#if data.userId}
+				<div class="balance">
+					<p>{$user?.balance}</p>
+					<img src="/icons/coin.png" alt="coin" />
+				</div>
+				<button class="logout" type="submit" formaction="?/logout">
+					<img src="/icons/logout.png" alt="key" />
+					<p>Logout</p>
+				</button>
+			{:else}
+				<button class="login"><img src="/icons/login.png" alt="login" />Login</button>
+				<button class="register"><img src="/icons/key.png" alt="key" />Register</button>
+			{/if}
+		</form>
 	</div>
 </header>
 
@@ -51,43 +53,46 @@
 			display: flex;
 			align-items: center;
 			margin: 0px 4px;
-			button {
-				width: 120px;
-				height: 40px;
-				border: none;
-				border-radius: 6px;
-				font-size: 14px;
-				margin: 8px;
-				text-align: center;
+			form {
 				display: flex;
-				align-items: center;
-				img {
-					width: 35px;
+				button {
+					width: 120px;
+					height: 40px;
+					border: none;
+					border-radius: 6px;
+					font-size: 14px;
+					margin: 8px;
+					text-align: center;
+					display: flex;
+					align-items: center;
+					img {
+						width: 35px;
+					}
+					p {
+						margin: 0px 8px;
+						color: #fff;
+					}
 				}
-				p {
-					margin: 0px 8px;
-					color: #fff;
+				.login {
+					background-color: #c8acd6;
 				}
-			}
-			.login {
-				background-color: #c8acd6;
-			}
-			.register {
-				background-color: #433d8b;
-			}
-			.logout {
-				background-color: #433d8b;
-			}
-			.balance {
-				display: flex;
-				align-items: center;
-				font-size: 24px;
-				img {
-					width: 35px;
+				.register {
+					background-color: #433d8b;
 				}
-				p {
-					margin: 0px 8px;
-					color: #c8acd6;
+				.logout {
+					background-color: #433d8b;
+				}
+				.balance {
+					display: flex;
+					align-items: center;
+					font-size: 24px;
+					img {
+						width: 35px;
+					}
+					p {
+						margin: 0px 8px;
+						color: #c8acd6;
+					}
 				}
 			}
 		}
