@@ -1,4 +1,5 @@
 import { firestore } from '$lib/firebase/index.js';
+import { redirect } from '@sveltejs/kit';
 import { query, collection, where, getDocs, setDoc, doc } from 'firebase/firestore';
 
 export const actions = {
@@ -40,6 +41,7 @@ export const actions = {
 				secure: true,
 				maxAge: 60 * 60 * 24 * 1
 			});
+			redirect(303, '/');
 		}
 	}
 };
