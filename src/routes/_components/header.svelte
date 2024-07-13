@@ -16,7 +16,7 @@
 <header>
 	<div class="logo">Albion Gamble</div>
 	<div class="userinfo">
-		{#if user}
+		{#if data.userId}
 			<div class="balance">
 				<p>{$user?.balance}</p>
 				<img src="/icons/coin.png" alt="coin" />
