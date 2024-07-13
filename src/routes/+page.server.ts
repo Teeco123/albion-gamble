@@ -3,7 +3,11 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import { firestore } from '$lib/firebase';
 
 export const load = async ({ cookies }) => {
-	const sessionId = cookies.get('sessionId');
+	let sessionId = cookies.get('sessionId');
+
+	if (sessionId == null) {
+		sessionId = '';
+	}
 
 	let userId;
 	const userDataQuery = query(collection(firestore, 'users'), where('sessionId', '==', sessionId));

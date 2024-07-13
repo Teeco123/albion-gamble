@@ -3,7 +3,11 @@ import type { Handle } from '@sveltejs/kit';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
 export const handle: Handle = async ({ event, resolve }) => {
-	const sessionId = event.cookies.get('sessionId');
+	let sessionId = event.cookies.get('sessionId');
+
+	if (sessionId == undefined) {
+		sessionId = '';
+	}
 
 	let userData;
 	const userDataQuery = query(collection(firestore, 'users'), where('sessionId', '==', sessionId));
