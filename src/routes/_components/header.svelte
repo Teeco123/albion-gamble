@@ -52,7 +52,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-around;
-
+		grid-column: span 10;
+		border-bottom: #101416 solid 2px;
 		.logo {
 			color: #a767b9;
 			font-size: 25px;
