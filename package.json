@@ -34,6 +34,7 @@
 	"dependencies": {
 		"firebase": "^10.12.3",
 		"pusher": "^5.2.0",
-		"pusher-js": "^8.4.0-rc2"
+		"pusher-js": "^8.4.0-rc2",
+		"sveltefire": "^0.4.5"
 	}
 }
