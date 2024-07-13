@@ -21,7 +21,7 @@
 			<option value="Asia">Asia</option>
 		</select>
 	</label>
-	<button type="submit">Register</button>
+	<button type="submit">Login</button>
 </form>
 
 <style lang="scss">
