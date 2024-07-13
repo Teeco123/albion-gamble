@@ -23,11 +23,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 			//@ts-expect-error property does not exists on type never
 			server: userData.server
 		};
-	} else {
-		event.locals.user = {
-			username: '',
-			server: ''
-		};
 	}
 
 	const response = await resolve(event);
