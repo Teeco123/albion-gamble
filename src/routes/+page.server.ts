@@ -1,5 +1,6 @@
 import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore';
 import { firestore } from '$lib/firebase';
+import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ cookies }) => {
 	let sessionId = cookies.get('sessionId');
@@ -46,5 +47,11 @@ export const actions = {
 			sessionId: null
 		});
 		cookies.delete('sessionId', { path: '/' });
+	},
+	loginRedirect: async () => {
+		redirect(302, '/login');
+	},
+	registerRedirect: async () => {
+		redirect(302, '/register');
 	}
 };

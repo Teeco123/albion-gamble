@@ -27,8 +27,14 @@
 					<p>Logout</p>
 				</button>
 			{:else}
-				<button class="login"><img src="/icons/login.png" alt="login" />Login</button>
-				<button class="register"><img src="/icons/key.png" alt="key" />Register</button>
+				<button class="login" type="submit" formaction="?/loginRedirect">
+					<img src="/icons/login.png" alt="login" />
+					<p>Login</p>
+				</button>
+				<button class="register" type="submit" formaction="?/registerRedirect">
+					<img src="/icons/key.png" alt="key" />
+					<p>Register</p>
+				</button>
 			{/if}
 		</form>
 	</div>
