@@ -41,7 +41,7 @@ export const actions = {
 				secure: true,
 				maxAge: 60 * 60 * 24 * 1
 			});
-			redirect(303, '/');
+			throw redirect(302, '/');
 		}
 	}
 };
