@@ -41,18 +41,20 @@
 </header>
 
 <style lang="scss">
-	@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+	@import url('https://fonts.googleapis.com/css?family=Inter:700|Inter:400');
 
 	header {
-		background-color: #17153b;
-		font-family: 'Roboto', sans-serif;
+		background-color: #060a0d;
+		font-family: 'Inter';
+		font-weight: 400;
+		font-size: 100%;
 		height: 65px;
 		display: flex;
 		align-items: center;
 		justify-content: space-around;
 
 		.logo {
-			color: #c8acd6;
+			color: #a767b9;
 			font-size: 25px;
 		}
 		.userinfo {
@@ -76,28 +78,29 @@
 					}
 					p {
 						margin: 0px 8px;
-						color: #fff;
+						color: #eaf1f5;
 					}
 				}
 				.login {
-					background-color: #c8acd6;
+					background-color: #533674;
 				}
 				.register {
-					background-color: #433d8b;
+					background-color: #533674;
 				}
 				.logout {
-					background-color: #433d8b;
+					background-color: #533674;
 				}
 				.balance {
 					display: flex;
 					align-items: center;
 					font-size: 24px;
+					margin: 0px 32px;
 					img {
 						width: 35px;
 					}
 					p {
 						margin: 0px 8px;
-						color: #c8acd6;
+						color: #a767b9;
 					}
 				}
 			}
