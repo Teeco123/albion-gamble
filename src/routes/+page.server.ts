@@ -74,6 +74,8 @@ export const actions = {
 		}
 
 		let userId;
+		let userData;
+		let userNickname;
 		const userDataQuery = query(
 			collection(firestore, 'users'),
 			where('sessionId', '==', sessionId)
@@ -82,10 +84,13 @@ export const actions = {
 		const userSnapshot = await getDocs(userDataQuery);
 		userSnapshot.forEach((doc) => {
 			userId = doc.id;
+			userData = doc.data();
+			userNickname = userData.username;
 		});
 
 		await addDoc(collection(firestore, 'messages'), {
 			userId: userId,
+			userNickname: userNickname,
 			message: message,
 			timeSent: serverTimestamp()
 		});
