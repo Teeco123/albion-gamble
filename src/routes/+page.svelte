@@ -8,7 +8,7 @@
 
 <Header {data} />
 <main>
-	<Chat />
+	<Chat {data} />
 </main>
 
 <style lang="scss">

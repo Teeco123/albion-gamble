@@ -4,6 +4,8 @@
 	import { firestore } from '$lib/firebase';
 	import { collectionStore } from 'sveltefire';
 
+	export let data;
+
 	interface Message {
 		userId?: string;
 		userNickname?: string;
@@ -32,10 +34,12 @@
 			</div>
 		{/each}
 	</div>
-	<form method="POST" action="?/sendMessage" use:enhance>
-		<input type="text" name="message" placeholder="Send message..." />
-		<button type="submit"><img src="/icons/send.png" alt="send" /></button>
-	</form>
+	{#if data.userId}
+		<form method="POST" action="?/sendMessage" use:enhance>
+			<input type="text" name="message" placeholder="Send message..." />
+			<button type="submit"><img src="/icons/send.png" alt="send" /></button>
+		</form>
+	{/if}
 </div>
 
 <style lang="scss">
@@ -64,7 +68,7 @@
 		.chat-box {
 			background-color: #0e1215;
 			margin: 8px 0px 0px 0px;
-			border-radius: 10px 10px 0px 0px;
+			border-radius: 10px 10px 10px 10px;
 			display: flex;
 			flex-direction: column;
 			overflow-y: auto;
@@ -96,12 +100,13 @@
 			display: flex;
 			background-color: #0e1215;
 			border-radius: 0px 0px 10px 10px;
+			margin: 8px 0px 0px 0px;
 			input {
 				background-color: #533674;
 				width: 85%;
 				height: 42px;
 				border: none;
-				border-radius: 0px 0px 0px 10px;
+				border-radius: 10px 0px 0px 10px;
 				color: #eaf1f5;
 				&:focus-visible {
 					outline: none;
@@ -112,7 +117,7 @@
 				border: none;
 				width: 15%;
 				height: 44px;
-				border-radius: 0px 0px 10px 0px;
+				border-radius: 0px 10px 10px 0px;
 				&:hover {
 					cursor: pointer;
 				}
