@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	//@ts-ignore
 	import { Wheel } from 'spin-wheel';
 	import { firestore } from '$lib/firebase';
@@ -51,7 +52,7 @@
 	{/if}
 {/each}
 
-<form method="POST" action="?/inputSilver">
+<form method="POST" action="?/inputSilver" use:enhance>
 	<input type="number" name="silver" placeholder="Silver" />
 	<button type="submit">GO IN</button>
 </form>
