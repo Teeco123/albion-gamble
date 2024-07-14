@@ -1,5 +1,21 @@
 <script lang="ts">
+	import { collection, query, orderBy, limit } from 'firebase/firestore';
 	import { enhance } from '$app/forms';
+	import { firestore } from '$lib/firebase';
+	import { collectionStore } from 'sveltefire';
+
+	interface Message {
+		userId?: string;
+		userNickname?: string;
+		message?: string;
+	}
+
+	const messageQuery = query(
+		collection(firestore, 'messages'),
+		orderBy('timeSent', 'desc'),
+		limit(15)
+	);
+	const messages = collectionStore<Message>(firestore, messageQuery);
 </script>
 
 <aside>
@@ -8,53 +24,13 @@
 		<p>Chat</p>
 	</div>
 	<div class="chat-box">
-		<div class="message-box">
-			<img class="user-icon" src="/icons/person.png" alt="person" />
-			<div class="user-nickname">Teeco</div>
-			<div class="message">JEBAC disa</div>
-		</div>
-		<div class="message-box">
-			<img class="user-icon" src="/icons/person.png" alt="person" />
-			<div class="user-nickname">Teeco</div>
-			<div class="message">Huj mu w dupe</div>
-		</div>
-		<div class="message-box">
-			<img class="user-icon" src="/icons/person.png" alt="person" />
-			<div class="user-nickname">Teeco</div>
-			<div class="message">
-				Jebac DIsa kurwe zwisa orka skuryuwysna jebanego huja szmate pierdolona
+		{#each $messages as message}
+			<div class="message-box">
+				<img class="user-icon" src="/icons/person.png" alt="person" />
+				<div class="user-nickname">{message.userNickname}</div>
+				<div class="message">{message.message}</div>
 			</div>
-		</div>
-		<div class="message-box">
-			<img class="user-icon" src="/icons/person.png" alt="person" />
-			<div class="user-nickname">Teeco</div>
-			<div class="message">JEBAC disaashdjhabsdnhakskdha</div>
-		</div>
-		<div class="message-box">
-			<img class="user-icon" src="/icons/person.png" alt="person" />
-			<div class="user-nickname">Teeco</div>
-			<div class="message">JEBAC disaashdjhabsdnhakskdha</div>
-		</div>
-		<div class="message-box">
-			<img class="user-icon" src="/icons/person.png" alt="person" />
-			<div class="user-nickname">Teeco</div>
-			<div class="message">JEBAC disaashdjhabsdnhakskdha</div>
-		</div>
-		<div class="message-box">
-			<img class="user-icon" src="/icons/person.png" alt="person" />
-			<div class="user-nickname">Teeco</div>
-			<div class="message">JEBAC disaashdjhabsdnhakskdha</div>
-		</div>
-		<div class="message-box">
-			<img class="user-icon" src="/icons/person.png" alt="person" />
-			<div class="user-nickname">Teeco</div>
-			<div class="message">JEBAC disaashdjhabsdnhakskdha</div>
-		</div>
-		<div class="message-box">
-			<img class="user-icon" src="/icons/person.png" alt="person" />
-			<div class="user-nickname">Teeco</div>
-			<div class="message">JEBAC disaashdjhabsdnhakskdha</div>
-		</div>
+		{/each}
 	</div>
 	<form method="POST" action="?/sendMessage" use:enhance>
 		<input type="text" name="message" placeholder="Send message..." />
