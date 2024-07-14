@@ -55,10 +55,10 @@
 			<div class="message">JEBAC disaashdjhabsdnhakskdha</div>
 		</div>
 	</div>
-	<div class="input-box">
+	<form>
 		<input type="text" placeholder="Send message..." />
 		<button><img src="/icons/send.png" alt="send" /></button>
-	</div>
+	</form>
 </aside>
 
 <style lang="scss">
@@ -117,7 +117,7 @@
 				}
 			}
 		}
-		.input-box {
+		form {
 			display: flex;
 			background-color: #0e1215;
 			border-radius: 0px 0px 10px 10px;
