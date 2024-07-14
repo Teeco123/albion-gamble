@@ -10,7 +10,7 @@
 		date?: Timestamp;
 		totalPlayers?: Number;
 		totalSilver?: Number;
-		user: [{ balanceDrop?: Number; userId?: string; userNickname?: string }];
+		users: [{ balanceDrop?: Number; userId?: string; userNickname?: string }];
 	}
 
 	const gambleQuery = query(collection(firestore, 'gambles'), orderBy('date', 'desc'), limit(1));
@@ -44,10 +44,11 @@
 {#each $gambles as gamble}
 	<p>Total Silver:{gamble.totalSilver}</p>
 	<p>Total Players:{gamble.totalPlayers}</p>
-
-	{#each gamble.user as user}
-		<p>Player:{user.userNickname} Silver:{user.balanceDrop}</p>
-	{/each}
+	{#if gamble.users}
+		{#each gamble.users as user}
+			<p>Player:{user.userNickname} Silver:{user.balanceDrop}</p>
+		{/each}
+	{/if}
 {/each}
 
 <form method="POST" action="?/inputSilver">

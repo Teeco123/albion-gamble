@@ -141,7 +141,7 @@ export const actions = {
 		await setDoc(
 			doc(firestore, 'gambles', gambleId),
 			{
-				user: arrayUnion({
+				users: arrayUnion({
 					userId: userId,
 					userNickname: userData.username,
 					balanceDrop: silver
