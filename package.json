@@ -36,6 +36,7 @@
 		"firebase": "^10.12.3",
 		"pusher": "^5.2.0",
 		"pusher-js": "^8.4.0-rc2",
+		"spin-wheel": "^5.0.0",
 		"sveltefire": "^0.4.5"
 	}
 }
