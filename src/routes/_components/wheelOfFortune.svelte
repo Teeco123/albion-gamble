@@ -19,24 +19,12 @@
 	const gambles = collectionStore<Gamble>(firestore, gambleQuery);
 
 	let wheelElement: HTMLElement;
-	const props = {
-		items: [
-			{
-				label: 'one'
-			},
-			{
-				label: 'two'
-			},
-			{
-				label: 'three'
-			}
-		]
-	};
 
 	onMount(() => {
-		let wheel = new Wheel(wheelElement, props);
+		let wheel = new Wheel(wheelElement);
 		wheel.isInteractive = false;
 		wheel.debug = true;
+		wheel.items = [{ label: 'huj', weight: 2 }];
 	});
 </script>
 
