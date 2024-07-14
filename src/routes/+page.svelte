@@ -7,7 +7,14 @@
 </script>
 
 <Header {data} />
-<Chat />
+<main>
+	<Chat />
+</main>
 
 <style lang="scss">
+	main {
+		display: flex;
+		justify-content: space-around;
+		margin: 40px 15%;
+	}
 </style>

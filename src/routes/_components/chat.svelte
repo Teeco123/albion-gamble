@@ -18,7 +18,7 @@
 	const messages = collectionStore<Message>(firestore, messageQuery);
 </script>
 
-<aside>
+<div class="chat">
 	<div class="chat-label">
 		<img src="/icons/chat.png" alt="chat" />
 		<p>Chat</p>
@@ -36,14 +36,12 @@
 		<input type="text" name="message" placeholder="Send message..." />
 		<button type="submit"><img src="/icons/send.png" alt="send" /></button>
 	</form>
-</aside>
+</div>
 
 <style lang="scss">
 	@import url('https://fonts.googleapis.com/css?family=Inter:700|Inter:400');
 
-	aside {
-		grid-column: 8/10;
-		margin-top: 40px;
+	.chat {
 		font-family: 'Inter';
 		font-weight: 400;
 		font-size: 100%;
