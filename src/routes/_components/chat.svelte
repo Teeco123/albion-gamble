@@ -73,6 +73,34 @@
 			flex-direction: column;
 			overflow-y: auto;
 			max-height: 60vh;
+			&::-webkit-scrollbar {
+				width: 6px;
+			}
+			&::-webkit-scrollbar-track {
+				border-radius: 7px;
+				background-color: #0e1215;
+			}
+
+			&::-webkit-scrollbar-track:hover {
+				background-color: #0e1215;
+			}
+
+			&::-webkit-scrollbar-track:active {
+				background-color: #0e1215;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				border-radius: 5px;
+				background-color: #533674;
+			}
+
+			&::-webkit-scrollbar-thumb:hover {
+				background-color: #4f336e;
+			}
+
+			&::-webkit-scrollbar-thumb:active {
+				background-color: #4f336e;
+			}
 			.message-box {
 				display: grid;
 				grid-template-columns: 15% 85%;
