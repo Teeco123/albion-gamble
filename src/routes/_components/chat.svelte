@@ -55,6 +55,10 @@
 			<div class="message">JEBAC disaashdjhabsdnhakskdha</div>
 		</div>
 	</div>
+	<div class="input-box">
+		<input type="text" />
+		<button><img src="/icons/send.png" alt="send" /></button>
+	</div>
 </aside>
 
 <style lang="scss">
@@ -66,7 +70,6 @@
 		font-family: 'Inter';
 		font-weight: 400;
 		font-size: 100%;
-
 		.chat-label {
 			background-color: #0e1215;
 			padding: 16px;
@@ -85,8 +88,8 @@
 		}
 		.chat-box {
 			background-color: #0e1215;
-			margin: 8px 0px;
-			border-radius: 10px;
+			margin: 8px 0px 0px 0px;
+			border-radius: 10px 10px 0px 0px;
 			display: flex;
 			flex-direction: column;
 			overflow-y: auto;
@@ -111,6 +114,35 @@
 					margin: 8px;
 					width: auto;
 					word-wrap: break-word;
+				}
+			}
+		}
+		.input-box {
+			display: flex;
+			background-color: #0e1215;
+			border-radius: 0px 0px 10px 10px;
+			input {
+				background-color: #533674;
+				width: 85%;
+				height: 42px;
+				border: none;
+				border-radius: 0px 0px 0px 10px;
+				color: #eaf1f5;
+				&:focus-visible {
+					outline: none;
+				}
+			}
+			button {
+				background-color: #533674;
+				border: none;
+				width: 15%;
+				height: 44px;
+				border-radius: 0px 0px 10px 0px;
+				&:hover {
+					cursor: pointer;
+				}
+				img {
+					width: 100%;
 				}
 			}
 		}
