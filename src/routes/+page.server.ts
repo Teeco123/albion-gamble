@@ -6,7 +6,12 @@ import {
 	updateDoc,
 	where,
 	addDoc,
-	serverTimestamp
+	serverTimestamp,
+	orderBy,
+	limit,
+	setDoc,
+	arrayUnion,
+	increment
 } from 'firebase/firestore';
 import { firestore } from '$lib/firebase';
 import { redirect } from '@sveltejs/kit';
@@ -94,5 +99,57 @@ export const actions = {
 			message: message,
 			timeSent: serverTimestamp()
 		});
+	},
+	inputSilver: async ({ request, cookies }) => {
+		const data = await request.formData();
+
+		const silver = data.get('silver');
+
+		//Retrieve latest gamble info
+		let gambleId: any;
+		let gambleData: any;
+		const gambleQuery = query(collection(firestore, 'gambles'), orderBy('date', 'desc'), limit(1));
+		const gambleSnapshot = await getDocs(gambleQuery);
+		gambleSnapshot.forEach((gambleDoc) => {
+			gambleId = gambleDoc.id;
+			gambleData = gambleDoc.data();
+		});
+
+		//Retrieve user info
+		let sessionId = cookies.get('sessionId');
+		if (sessionId == undefined) {
+			sessionId = '';
+		}
+
+		let userId: any;
+		let userData: any;
+
+		const userDataQuery = query(
+			collection(firestore, 'users'),
+			where('sessionId', '==', sessionId)
+		);
+
+		const userSnapshot = await getDocs(userDataQuery);
+		userSnapshot.forEach((doc) => {
+			userId = doc.id;
+			userData = doc.data();
+		});
+
+		//Update gamble doc with new info
+		const uId = crypto.randomUUID();
+
+		await setDoc(
+			doc(firestore, 'gambles', gambleId),
+			{
+				user: arrayUnion({
+					userId: userId,
+					userNickname: userData.username,
+					balanceDrop: silver
+				}),
+				totalPlayers: increment(1),
+				totalSilver: Number(gambleData.totalSilver) + Number(silver)
+			},
+			{ merge: true }
+		);
 	}
 };

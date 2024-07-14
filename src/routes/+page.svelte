@@ -2,12 +2,14 @@
 	import type { PageData } from './$types';
 	import Header from './_components/header.svelte';
 	import Chat from './_components/chat.svelte';
+	import WheelOfFortune from './_components/wheelOfFortune.svelte';
 
 	export let data: PageData;
 </script>
 
 <Header {data} />
 <main>
+	<WheelOfFortune />
 	<Chat {data} />
 </main>
 
