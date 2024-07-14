@@ -55,9 +55,9 @@
 			<div class="message">JEBAC disaashdjhabsdnhakskdha</div>
 		</div>
 	</div>
-	<form>
-		<input type="text" placeholder="Send message..." />
-		<button><img src="/icons/send.png" alt="send" /></button>
+	<form method="POST" action="?/sendMessage">
+		<input type="text" name="message" placeholder="Send message..." />
+		<button type="submit"><img src="/icons/send.png" alt="send" /></button>
 	</form>
 </aside>
 
