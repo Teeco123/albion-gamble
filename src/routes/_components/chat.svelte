@@ -56,7 +56,7 @@
 		</div>
 	</div>
 	<div class="input-box">
-		<input type="text" />
+		<input type="text" placeholder="Send message..." />
 		<button><img src="/icons/send.png" alt="send" /></button>
 	</div>
 </aside>
