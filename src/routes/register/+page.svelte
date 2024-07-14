@@ -91,10 +91,11 @@
 			margin: 50px 0px;
 			background-color: #a2c2d4;
 			color: #0e1215;
-			width: 13em;
+			width: 11em;
 			height: 35px;
 			border-radius: 12px;
 			border: none;
+			font-size: 1.1em;
 			&:hover {
 				cursor: pointer;
 			}
