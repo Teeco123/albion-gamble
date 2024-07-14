@@ -18,5 +18,6 @@
 		display: flex;
 		justify-content: space-around;
 		margin: 40px 15%;
+		height: 100vh;
 	}
 </style>

@@ -1,7 +1,62 @@
-<script>
+<script lang="ts">
+	//@ts-ignore
+	import { Wheel } from 'spin-wheel';
+	import { firestore } from '$lib/firebase';
+	import { collection, limit, orderBy, query, Timestamp } from 'firebase/firestore';
+	import { onMount } from 'svelte';
+	import { collectionStore } from 'sveltefire';
+
+	interface Gamble {
+		date?: Timestamp;
+		totalPlayers?: Number;
+		totalSilver?: Number;
+		user: [{ balanceDrop?: Number; userId?: string; userNickname?: string }];
+	}
+
+	const gambleQuery = query(collection(firestore, 'gambles'), orderBy('date', 'desc'), limit(1));
+	//@ts-ignore
+	const gambles = collectionStore<Gamble>(firestore, gambleQuery);
+
+	let wheelElement: HTMLElement;
+	const props = {
+		items: [
+			{
+				label: 'one'
+			},
+			{
+				label: 'two'
+			},
+			{
+				label: 'three'
+			}
+		]
+	};
+
+	onMount(() => {
+		let wheel = new Wheel(wheelElement, props);
+		wheel.isInteractive = false;
+		wheel.debug = true;
+	});
 </script>
+
+<div bind:this={wheelElement} class="wheel"></div>
+
+{#each $gambles as gamble}
+	<p>Total Silver:{gamble.totalSilver}</p>
+	<p>Total Players:{gamble.totalPlayers}</p>
+
+	{#each gamble.user as user}
+		<p>Player:{user.userNickname} Silver:{user.balanceDrop}</p>
+	{/each}
+{/each}
 
 <form method="POST" action="?/inputSilver">
 	<input type="number" name="silver" placeholder="Silver" />
 	<button type="submit">GO IN</button>
 </form>
+
+<style lang="scss">
+	p {
+		color: white;
+	}
+</style>
