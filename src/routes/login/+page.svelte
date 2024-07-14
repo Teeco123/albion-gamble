@@ -1,8 +1,9 @@
 <script>
+	import { enhance } from '$app/forms';
 	export let form;
 </script>
 
-<form method="POST" action="?/login">
+<form method="POST" action="?/login" use:enhance>
 	{#if form?.missing}<p class="error">Fill required forms</p>{/if}
 	{#if form?.wrong}<p class="error">Wrong username or password</p>{/if}
 	<label>

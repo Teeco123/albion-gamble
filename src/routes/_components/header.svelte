@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { firestore } from '$lib/firebase';
 	import { docStore } from 'sveltefire';
 
@@ -16,7 +17,7 @@
 <header>
 	<div class="logo">Albion Gamble</div>
 	<div class="userinfo">
-		<form method="POST">
+		<form method="POST" use:enhance>
 			{#if data.userId}
 				<div class="balance">
 					<p>{$user?.balance}</p>

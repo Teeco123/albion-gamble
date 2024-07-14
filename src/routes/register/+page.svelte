@@ -1,8 +1,9 @@
 <script>
+	import { enhance } from '$app/forms';
 	export let form;
 </script>
 
-<form method="POST" action="?/register">
+<form method="POST" action="?/register" use:enhance>
 	{#if form?.missing}<p class="error">Fill required forms</p>{/if}
 	{#if form?.exists}<p class="error">User with this nickname already exsists</p>{/if}
 	<label>
