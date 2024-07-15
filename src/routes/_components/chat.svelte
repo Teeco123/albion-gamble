@@ -3,6 +3,7 @@
 	import { enhance } from '$app/forms';
 	import { firestore } from '$lib/firebase';
 	import { collectionStore } from 'sveltefire';
+	import toast, { Toaster } from 'svelte-french-toast';
 
 	export let data;
 
@@ -18,8 +19,16 @@
 		limit(15)
 	);
 	const messages = collectionStore<Message>(firestore, messageQuery);
+
+	let message: string;
+	function submitMessage() {
+		if (!message) {
+			toast.error("Can't send empty message");
+		}
+	}
 </script>
 
+<Toaster />
 <div class="chat">
 	<div class="chat-label">
 		<img src="/icons/chat.png" alt="chat" />
@@ -36,8 +45,16 @@
 	</div>
 	{#if data.userId}
 		<form method="POST" action="?/sendMessage" use:enhance>
-			<input type="text" name="message" placeholder="Send message..." />
-			<button type="submit"><img src="/icons/send.png" alt="send" /></button>
+			<input
+				type="text"
+				name="message"
+				placeholder="Send message..."
+				bind:value={message}
+				autocomplete="off"
+			/>
+			<button type="submit" on:click={submitMessage}>
+				<img src="/icons/send.png" alt="send" />
+			</button>
 		</form>
 	{/if}
 </div>
