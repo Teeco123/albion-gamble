@@ -109,6 +109,9 @@
 					height: 4vh;
 					width: 2.6vw;
 				}
+				&:hover {
+					cursor: pointer;
+				}
 			}
 		}
 	}
