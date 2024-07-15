@@ -76,6 +76,9 @@
 					text-align: center;
 					display: flex;
 					align-items: center;
+					&:hover {
+						cursor: pointer;
+					}
 					img {
 						width: 35px;
 					}
