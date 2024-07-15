@@ -55,6 +55,7 @@
 		justify-content: space-around;
 		width: 100%;
 		border-bottom: #101416 solid 2px;
+		position: sticky;
 		.logo {
 			color: #a767b9;
 			font-size: 25px;

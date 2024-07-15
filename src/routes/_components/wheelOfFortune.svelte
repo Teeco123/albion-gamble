@@ -34,24 +34,50 @@
 	});
 </script>
 
-<div bind:this={wheelElement} class="wheel"></div>
-
-{#each $gambles as gamble}
-	<p>Total Silver:{gamble.totalSilver}</p>
-	<p>Total Players:{gamble.totalPlayers}</p>
-	{#if gamble.users}
-		{#each gamble.users as user}
-			<p>Player:{user.userNickname} Silver:{user.balanceDrop}</p>
+<div class="wheel-of-fortune">
+	<div class="betting">
+		<div bind:this={wheelElement} class="wheel"></div>
+		<form method="POST" action="?/inputSilver" use:enhance>
+			<input type="number" name="silver" placeholder="Silver" />
+			<button type="submit">GO IN</button>
+		</form>
+	</div>
+	<!--
+	<div class="gamble-info">
+		{#each $gambles as gamble}
+			<p>Total Silver:{gamble.totalSilver}</p>
+			<p>Total Players:{gamble.totalPlayers}</p>
+			{#if gamble.users}
+				{#each gamble.users as user}
+					<p>Player:{user.userNickname} Silver:{user.balanceDrop}</p>
+				{/each}
+			{/if}
 		{/each}
-	{/if}
-{/each}
-
-<form method="POST" action="?/inputSilver" use:enhance>
-	<input type="number" name="silver" placeholder="Silver" />
-	<button type="submit">GO IN</button>
-</form>
+	</div>
+	-->
+</div>
 
 <style lang="scss">
+	.wheel-of-fortune {
+		background-color: #0e1215;
+		flex-grow: 100;
+		margin: 8px;
+		border-radius: 10px;
+		max-height: 80%;
+	}
+	.betting {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.wheel {
+			height: 40vh;
+		}
+	}
+	.gamble-info {
+		display: flex;
+		max-height: 70vh;
+	}
 	p {
 		color: white;
 	}

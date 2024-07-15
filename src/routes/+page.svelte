@@ -20,6 +20,6 @@
 		display: flex;
 		justify-content: space-between;
 		margin: 40px 8%;
-		height: 100vh;
+		height: calc(100vh - 67px - 44px - 80px);
 	}
 </style>

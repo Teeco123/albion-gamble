@@ -49,6 +49,10 @@
 		font-family: 'Inter';
 		font-weight: 400;
 		font-size: 100%;
+		margin: 8px;
+		max-width: 20%;
+		max-height: 80%;
+		overflow-y: hidden;
 		.chat-label {
 			background-color: #0e1215;
 			padding: 16px;
@@ -72,7 +76,7 @@
 			display: flex;
 			flex-direction: column;
 			overflow-y: auto;
-			max-height: 60vh;
+			max-height: calc(100% - 52px - 62px - 8px);
 			&::-webkit-scrollbar {
 				width: 6px;
 			}
@@ -128,11 +132,11 @@
 			display: flex;
 			background-color: #0e1215;
 			border-radius: 0px 0px 10px 10px;
-			margin: 8px 0px 0px 0px;
+			margin: 8px 0px 8px 0px;
+			height: 44px;
 			input {
 				background-color: #533674;
 				width: 85%;
-				height: 42px;
 				border: none;
 				border-radius: 10px 0px 0px 10px;
 				color: #eaf1f5;
@@ -144,7 +148,6 @@
 				background-color: #533674;
 				border: none;
 				width: 15%;
-				height: 44px;
 				border-radius: 0px 10px 10px 0px;
 				&:hover {
 					cursor: pointer;
