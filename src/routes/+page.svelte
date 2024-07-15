@@ -10,7 +10,7 @@
 
 <Header {data} />
 <main>
-	<WheelOfFortune />
+	<WheelOfFortune {data} />
 	<Chat {data} />
 </main>
 <Footer />

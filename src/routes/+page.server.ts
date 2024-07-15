@@ -24,6 +24,7 @@ export const load = async ({ cookies }) => {
 	}
 
 	let userId;
+	let userData;
 	const userDataQuery = query(collection(firestore, 'users'), where('sessionId', '==', sessionId));
 
 	const userSnapshot = await getDocs(userDataQuery);
@@ -32,7 +33,9 @@ export const load = async ({ cookies }) => {
 	});
 
 	return {
-		userId: userId
+		sessionId: sessionId,
+		userId: userId,
+		userData: userData
 	};
 };
 

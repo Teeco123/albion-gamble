@@ -3,9 +3,21 @@
 	//@ts-ignore
 	import { Wheel } from 'spin-wheel';
 	import { firestore } from '$lib/firebase';
-	import { collection, limit, orderBy, query, Timestamp } from 'firebase/firestore';
+	import {
+		collection,
+		limit,
+		orderBy,
+		query,
+		Timestamp,
+		where,
+		getDocs,
+		documentId
+	} from 'firebase/firestore';
 	import { onMount } from 'svelte';
 	import { collectionStore } from 'sveltefire';
+	import toast from 'svelte-french-toast';
+
+	export let data: any;
 
 	interface Gamble {
 		date?: Timestamp;
@@ -26,6 +38,32 @@
 
 	let wheelElement: HTMLElement;
 
+	//Toast notif
+	let silver: number;
+	async function submitInputSilver() {
+		if (silver > 0 && !null) {
+			if (data.userId) {
+				let userData: any;
+				const userDataQuery = query(
+					collection(firestore, 'users'),
+					where(documentId(), '==', data.userId)
+				);
+
+				const userSnapshot = await getDocs(userDataQuery);
+				userSnapshot.forEach((doc) => {
+					userData = doc.data();
+				});
+				if (silver < userData.balance) {
+					toast.success('Successfully placed a bet');
+				} else {
+					toast.error('Not enough balance');
+				}
+			}
+		} else {
+			toast.error("Can't place a bet for 0 silver");
+		}
+	}
+
 	onMount(() => {
 		let wheel = new Wheel(wheelElement);
 		wheel.isInteractive = false;
@@ -39,8 +77,10 @@
 	<div class="betting">
 		<div bind:this={wheelElement} class="wheel"></div>
 		<form method="POST" action="?/inputSilver" use:enhance>
-			<input type="number" name="silver" placeholder="Silver" />
-			<button type="submit"><img src="/icons/place item.png" alt="send" /></button>
+			<input type="number" name="silver" placeholder="Silver" bind:value={silver} />
+			<button type="submit" on:click={submitInputSilver}>
+				<img src="/icons/place item.png" alt="send" />
+			</button>
 		</form>
 	</div>
 	<!--
