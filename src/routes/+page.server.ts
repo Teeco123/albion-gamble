@@ -108,53 +108,66 @@ export const actions = {
 	inputSilver: async ({ request, cookies }) => {
 		const data = await request.formData();
 
-		const silver = data.get('silver');
+		const silver: any = data.get('silver');
 
-		//Retrieve latest gamble info
-		let gambleId: any;
-		let gambleData: any;
-		const gambleQuery = query(collection(firestore, 'gambles'), orderBy('date', 'desc'), limit(1));
-		const gambleSnapshot = await getDocs(gambleQuery);
-		gambleSnapshot.forEach((gambleDoc) => {
-			gambleId = gambleDoc.id;
-			gambleData = gambleDoc.data();
-		});
-
-		//Retrieve user info
 		let sessionId = cookies.get('sessionId');
-		if (sessionId == undefined) {
+		if (sessionId != undefined) {
+			//Retrieve user info
+			let userId: any;
+			let userData: any;
+
+			const userDataQuery = query(
+				collection(firestore, 'users'),
+				where('sessionId', '==', sessionId)
+			);
+
+			const userSnapshot = await getDocs(userDataQuery);
+			userSnapshot.forEach((doc) => {
+				userId = doc.id;
+				userData = doc.data();
+			});
+			if (silver <= userData.balance) {
+				//Retrieve latest gamble info
+				let gambleId: any;
+				let gambleData: any;
+				const gambleQuery = query(
+					collection(firestore, 'gambles'),
+					orderBy('date', 'desc'),
+					limit(1)
+				);
+				const gambleSnapshot = await getDocs(gambleQuery);
+				gambleSnapshot.forEach((gambleDoc) => {
+					gambleId = gambleDoc.id;
+					gambleData = gambleDoc.data();
+				});
+
+				//Update gamble doc with new info
+				await setDoc(
+					doc(firestore, 'gambles', gambleId),
+					{
+						users: arrayUnion({
+							userId: userId,
+							userNickname: userData.username,
+							balanceDrop: silver
+						}),
+						totalPlayers: increment(1),
+						totalSilver: Number(gambleData.totalSilver) + Number(silver)
+					},
+					{ merge: true }
+				);
+
+				//Update user balance
+				await setDoc(
+					doc(firestore, 'users', userId),
+					{
+						balance: userData.balance - silver
+					},
+					{ merge: true }
+				);
+			}
+		} else {
 			sessionId = '';
+			return;
 		}
-
-		let userId: any;
-		let userData: any;
-
-		const userDataQuery = query(
-			collection(firestore, 'users'),
-			where('sessionId', '==', sessionId)
-		);
-
-		const userSnapshot = await getDocs(userDataQuery);
-		userSnapshot.forEach((doc) => {
-			userId = doc.id;
-			userData = doc.data();
-		});
-
-		//Update gamble doc with new info
-		const uId = crypto.randomUUID();
-
-		await setDoc(
-			doc(firestore, 'gambles', gambleId),
-			{
-				users: arrayUnion({
-					userId: userId,
-					userNickname: userData.username,
-					balanceDrop: silver
-				}),
-				totalPlayers: increment(1),
-				totalSilver: Number(gambleData.totalSilver) + Number(silver)
-			},
-			{ merge: true }
-		);
 	}
 };

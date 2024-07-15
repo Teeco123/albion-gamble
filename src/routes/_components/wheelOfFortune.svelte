@@ -53,7 +53,7 @@
 				userSnapshot.forEach((doc) => {
 					userData = doc.data();
 				});
-				if (silver < userData.balance) {
+				if (silver <= userData.balance) {
 					toast.success('Successfully placed a bet');
 				} else {
 					toast.error('Not enough balance');
