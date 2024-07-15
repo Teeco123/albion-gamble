@@ -148,7 +148,7 @@ export const actions = {
 						users: arrayUnion({
 							userId: userId,
 							userNickname: userData.username,
-							balanceDrop: silver
+							balanceDrop: Number(silver)
 						}),
 						totalPlayers: increment(1),
 						totalSilver: Number(gambleData.totalSilver) + Number(silver)
@@ -160,7 +160,7 @@ export const actions = {
 				await setDoc(
 					doc(firestore, 'users', userId),
 					{
-						balance: userData.balance - silver
+						balance: Number(userData.balance) - Number(silver)
 					},
 					{ merge: true }
 				);
