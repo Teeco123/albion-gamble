@@ -13,6 +13,7 @@
 		message?: string;
 	}
 
+	//Realtime data from db
 	const messageQuery = query(
 		collection(firestore, 'messages'),
 		orderBy('timeSent', 'desc'),
@@ -20,6 +21,7 @@
 	);
 	const messages = collectionStore<Message>(firestore, messageQuery);
 
+	//Toast notif
 	let message: string;
 	function submitMessage() {
 		if (!message) {

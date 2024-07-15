@@ -4,10 +4,10 @@
 	import { firestore } from '$lib/firebase/index.js';
 	import toast from 'svelte-french-toast';
 
+	//Toast notif
 	let username: string;
 	let password: string;
 	let server: string;
-
 	async function submitRegister() {
 		if (!username || !password || !server) {
 			toast.error('Fill missing credentials');

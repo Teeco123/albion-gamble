@@ -4,10 +4,10 @@
 	import { query, collection, where, getDocs } from 'firebase/firestore';
 	import { firestore } from '$lib/firebase/index.js';
 
+	//Toast notif
 	let username: string;
 	let password: string;
 	let server: string;
-
 	async function submitLogin() {
 		if (!username || !password || !server) {
 			toast.error('Fill missing credentials');
