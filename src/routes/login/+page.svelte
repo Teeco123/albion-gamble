@@ -1,28 +1,60 @@
-<script>
+<script lang="ts">
+	import { toast } from 'svelte-french-toast';
 	import { enhance } from '$app/forms';
-	export let form;
+	import { query, collection, where, getDocs } from 'firebase/firestore';
+	import { firestore } from '$lib/firebase/index.js';
+
+	let username: string;
+	let password: string;
+	let server: string;
+
+	async function submitLogin() {
+		if (!username || !password || !server) {
+			toast.error('Fill missing credentials');
+			return;
+		}
+
+		let userData;
+		const userQuery = query(
+			collection(firestore, 'users'),
+			where('username', '==', username),
+			where('server', '==', server),
+			where('password', '==', password)
+		);
+		const userSnapshot = await getDocs(userQuery);
+		userSnapshot.forEach((userDoc) => {
+			userData = userDoc.data();
+		});
+
+		if (!userData) {
+			toast.error('Wrong username or password!');
+			return;
+		}
+
+		if (userData) {
+			toast.success('Successfully logged in');
+		}
+	}
 </script>
 
 <form method="POST" action="?/login" use:enhance>
 	<label>
 		<p>Username</p>
-		<input name="username" type="string" />
+		<input name="username" type="string" bind:value={username} autocomplete="username" />
 	</label>
 	<label>
 		<p>Password</p>
-		<input name="password" type="password" />
+		<input name="password" type="password" bind:value={password} autocomplete="current-password" />
 	</label>
 	<label>
 		<p>Server</p>
-		<select name="server">
+		<select name="server" bind:value={server}>
 			<option value="Europe">Europe</option>
 			<option value="America">America</option>
 			<option value="Asia">Asia</option>
 		</select>
 	</label>
-	{#if form?.missing}<p class="error">Fill required forms</p>{/if}
-	{#if form?.wrong}<p class="error">Wrong username or password</p>{/if}
-	<button type="submit">Login</button>
+	<button type="submit" on:click={submitLogin}>Login</button>
 </form>
 
 <style lang="scss">
@@ -40,9 +72,6 @@
 		height: 100vh;
 		border-radius: 10px;
 		text-align: center;
-		.error {
-			color: red;
-		}
 		label {
 			margin: 5px;
 			p {
