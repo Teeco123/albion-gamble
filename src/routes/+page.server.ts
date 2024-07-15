@@ -15,7 +15,6 @@ import {
 } from 'firebase/firestore';
 import { firestore } from '$lib/firebase';
 import { redirect } from '@sveltejs/kit';
-import { toast } from '@zerodevx/svelte-toast';
 
 export const load = async ({ cookies }) => {
 	let sessionId = cookies.get('sessionId');
