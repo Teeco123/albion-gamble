@@ -126,7 +126,7 @@ export const actions = {
 				userId = doc.id;
 				userData = doc.data();
 			});
-			if (silver <= userData.balance) {
+			if (silver <= userData.balance && typeof silver == 'number') {
 				//Retrieve latest gamble info
 				let gambleId: any;
 				let gambleData: any;
