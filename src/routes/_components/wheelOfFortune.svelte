@@ -29,6 +29,7 @@
 	onMount(() => {
 		let wheel = new Wheel(wheelElement);
 		wheel.isInteractive = false;
+		wheel.radius = 1;
 		wheel.debug = true;
 		wheel.items = [{ label: 'huj', weight: 2 }];
 	});
@@ -39,7 +40,7 @@
 		<div bind:this={wheelElement} class="wheel"></div>
 		<form method="POST" action="?/inputSilver" use:enhance>
 			<input type="number" name="silver" placeholder="Silver" />
-			<button type="submit">GO IN</button>
+			<button type="submit"><img src="/icons/place item.png" alt="send" /></button>
 		</form>
 	</div>
 	<!--
@@ -69,16 +70,46 @@
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-
+		margin: 36px;
+		max-height: 80%;
 		.wheel {
-			height: 40vh;
+			max-height: 40vh;
+			width: 40vh;
 		}
-	}
-	.gamble-info {
-		display: flex;
-		max-height: 70vh;
-	}
-	p {
-		color: white;
+		form {
+			display: flex;
+			justify-content: center;
+			margin-top: 10vh;
+
+			input {
+				height: 5vh;
+				border: none;
+				background-color: #533674;
+				border-radius: 10px;
+				text-align: center;
+				color: #eaf1f5;
+				font-size: 1rem;
+				&::placeholder {
+					color: #eaf1f5ad;
+				}
+				&::-webkit-inner-spin-button {
+					-webkit-appearance: none;
+					margin: 0;
+				}
+				&:focus-visible {
+					outline: none;
+				}
+			}
+			button {
+				border: none;
+				margin-left: 16px;
+				border-radius: 10px;
+				background-color: #533674;
+				img {
+					height: 4vh;
+					width: 2.6vw;
+				}
+			}
+		}
 	}
 </style>
