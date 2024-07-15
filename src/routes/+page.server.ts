@@ -108,7 +108,7 @@ export const actions = {
 	inputSilver: async ({ request, cookies }) => {
 		const data = await request.formData();
 
-		const silver: any = data.get('silver');
+		const silver = Number(data.get('silver'));
 
 		let sessionId = cookies.get('sessionId');
 		if (sessionId != undefined) {
@@ -126,7 +126,9 @@ export const actions = {
 				userId = doc.id;
 				userData = doc.data();
 			});
-			if (silver <= userData.balance && typeof silver == 'number') {
+
+			let newBalance = userData.balance - silver;
+			if (newBalance >= 0 && silver > 0) {
 				//Retrieve latest gamble info
 				let gambleId: any;
 				let gambleData: any;
@@ -148,7 +150,7 @@ export const actions = {
 						users: arrayUnion({
 							userId: userId,
 							userNickname: userData.username,
-							balanceDrop: silver
+							balanceDrop: Number(silver)
 						}),
 						totalPlayers: increment(1),
 						totalSilver: Number(gambleData.totalSilver) + Number(silver)
@@ -160,7 +162,7 @@ export const actions = {
 				await setDoc(
 					doc(firestore, 'users', userId),
 					{
-						balance: userData.balance - silver
+						balance: newBalance
 					},
 					{ merge: true }
 				);
