@@ -2,6 +2,7 @@
 	import { initializeApp } from 'firebase/app';
 	import { getFirestore } from 'firebase/firestore';
 	import { FirebaseApp } from 'sveltefire';
+	import { Toaster } from 'svelte-french-toast';
 
 	const firebaseConfig = {
 		apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -17,6 +18,7 @@
 	const firestore = getFirestore(app);
 </script>
 
+<Toaster />
 <FirebaseApp {firestore}>
 	<slot />
 </FirebaseApp>

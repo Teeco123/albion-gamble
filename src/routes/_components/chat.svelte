@@ -3,7 +3,7 @@
 	import { enhance } from '$app/forms';
 	import { firestore } from '$lib/firebase';
 	import { collectionStore } from 'sveltefire';
-	import toast, { Toaster } from 'svelte-french-toast';
+	import toast from 'svelte-french-toast';
 
 	export let data;
 
@@ -28,7 +28,6 @@
 	}
 </script>
 
-<Toaster />
 <div class="chat">
 	<div class="chat-label">
 		<img src="/icons/chat.png" alt="chat" />
