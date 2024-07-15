@@ -30,10 +30,18 @@
 	//@ts-ignore
 	const gambles = collectionStore<Gamble>(firestore, gambleQuery);
 
+	let items: { label: string | undefined; weight: Number | undefined }[] = [];
 	let gambleData;
 
 	$: $gambles.forEach((gamble) => {
 		gambleData = gamble;
+		if (gamble.users != undefined) {
+			const gambleUserData = gamble.users.map((user) => ({
+				label: user.userNickname,
+				weight: user.balanceDrop
+			}));
+			items.push(...gambleUserData);
+		}
 	});
 
 	let wheelElement: HTMLElement;
@@ -69,13 +77,22 @@
 		wheel.isInteractive = false;
 		wheel.radius = 1;
 		wheel.debug = true;
-		wheel.items = [{ label: 'huj', weight: 2 }];
+		wheel.items = [{ label: 'Teeco' }];
+
+		const test = [
+			{ label: 'Teeco123', weight: 1 },
+			{ label: 'Teeco123', weight: 2 }
+		];
+		console.log(test);
+		console.log(items);
 	});
 </script>
 
 <div class="wheel-of-fortune">
 	<div class="betting">
-		<div bind:this={wheelElement} class="wheel"></div>
+		{#key items}
+			<div bind:this={wheelElement} class="wheel"></div>
+		{/key}
 		<form method="POST" action="?/inputSilver" use:enhance>
 			<input type="number" name="silver" placeholder="Silver" bind:value={silver} />
 			<button type="submit" on:click={submitInputSilver}>
