@@ -18,10 +18,10 @@
 	//@ts-ignore
 	const gambles = collectionStore<Gamble>(firestore, gambleQuery);
 
-	let gambleDate;
+	let gambleData;
 
 	$: $gambles.forEach((gamble) => {
-		gambleDate = gamble.date?.toDate();
+		gambleData = gamble;
 	});
 
 	let wheelElement: HTMLElement;
