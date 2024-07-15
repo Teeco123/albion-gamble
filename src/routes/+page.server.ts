@@ -15,6 +15,7 @@ import {
 } from 'firebase/firestore';
 import { firestore } from '$lib/firebase';
 import { redirect } from '@sveltejs/kit';
+import { toast } from '@zerodevx/svelte-toast';
 
 export const load = async ({ cookies }) => {
 	let sessionId = cookies.get('sessionId');
@@ -72,33 +73,35 @@ export const actions = {
 		const data = await request.formData();
 		const message = data.get('message');
 
-		let sessionId = cookies.get('sessionId');
+		if (message) {
+			let sessionId = cookies.get('sessionId');
 
-		if (sessionId == undefined) {
-			sessionId = '';
+			if (sessionId == undefined) {
+				sessionId = '';
+			}
+
+			let userId;
+			let userData;
+			let userNickname;
+			const userDataQuery = query(
+				collection(firestore, 'users'),
+				where('sessionId', '==', sessionId)
+			);
+
+			const userSnapshot = await getDocs(userDataQuery);
+			userSnapshot.forEach((doc) => {
+				userId = doc.id;
+				userData = doc.data();
+				userNickname = userData.username;
+			});
+
+			await addDoc(collection(firestore, 'messages'), {
+				userId: userId,
+				userNickname: userNickname,
+				message: message,
+				timeSent: serverTimestamp()
+			});
 		}
-
-		let userId;
-		let userData;
-		let userNickname;
-		const userDataQuery = query(
-			collection(firestore, 'users'),
-			where('sessionId', '==', sessionId)
-		);
-
-		const userSnapshot = await getDocs(userDataQuery);
-		userSnapshot.forEach((doc) => {
-			userId = doc.id;
-			userData = doc.data();
-			userNickname = userData.username;
-		});
-
-		await addDoc(collection(firestore, 'messages'), {
-			userId: userId,
-			userNickname: userNickname,
-			message: message,
-			timeSent: serverTimestamp()
-		});
 	},
 	inputSilver: async ({ request, cookies }) => {
 		const data = await request.formData();
