@@ -50,7 +50,7 @@
 		font-weight: 400;
 		font-size: 100%;
 		margin: 8px;
-		max-width: 20%;
+		max-width: 260px;
 		max-height: 80%;
 		overflow-y: hidden;
 		.chat-label {
