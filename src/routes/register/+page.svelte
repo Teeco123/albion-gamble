@@ -1,28 +1,59 @@
-<script>
+<script lang="ts">
 	import { enhance } from '$app/forms';
-	export let form;
+	import { query, collection, where, getDocs } from 'firebase/firestore';
+	import { firestore } from '$lib/firebase/index.js';
+	import toast from 'svelte-french-toast';
+
+	let username: string;
+	let password: string;
+	let server: string;
+
+	async function submitRegister() {
+		if (!username || !password || !server) {
+			toast.error('Fill missing credentials');
+			return;
+		}
+
+		let userData;
+		const userQuery = query(
+			collection(firestore, 'users'),
+			where('username', '==', username),
+			where('server', '==', server)
+		);
+		const userSnapshot = await getDocs(userQuery);
+		userSnapshot.forEach((userDoc) => {
+			userData = userDoc.data();
+		});
+
+		if (userData) {
+			toast.error('User with this username already exists');
+			return;
+		}
+		if (username && password && server && !userData) {
+			toast.success('Account created successfully');
+			return;
+		}
+	}
 </script>
 
 <form method="POST" action="?/register" use:enhance>
 	<label>
 		<p>Username</p>
-		<input name="username" type="string" />
+		<input name="username" type="string" bind:value={username} autocomplete="username" />
 	</label>
 	<label>
 		<p>Password</p>
-		<input name="password" type="password" />
+		<input name="password" type="password" bind:value={password} autocomplete="new-password" />
 	</label>
 	<label>
 		<p>Server</p>
-		<select name="server">
+		<select name="server" bind:value={server}>
 			<option value="Europe">Europe</option>
 			<option value="America">America</option>
 			<option value="Asia">Asia</option>
 		</select>
 	</label>
-	{#if form?.missing}<p class="error">Fill required forms</p>{/if}
-	{#if form?.exists}<p class="error">User with this nickname already exsists</p>{/if}
-	<button type="submit">Register</button>
+	<button type="submit" on:click={submitRegister}>Register</button>
 </form>
 
 <style lang="scss">
@@ -40,9 +71,6 @@
 		height: 100vh;
 		border-radius: 10px;
 		text-align: center;
-		.error {
-			color: red;
-		}
 		label {
 			margin: 5px;
 			p {
