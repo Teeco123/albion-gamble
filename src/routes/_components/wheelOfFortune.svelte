@@ -59,20 +59,20 @@
 		wheel = new Wheel(wheelElement);
 		wheel.isInteractive = false;
 		wheel.radius = 1;
-		wheel.debug = true;
+		wheel.items = [{}];
 	});
 
 	const gambleQuery = query(collection(firestore, 'gambles'), orderBy('date', 'desc'), limit(1));
 	//@ts-ignore
 	const gambles = collectionStore<Gamble>(firestore, gambleQuery);
-
+	let gambleUserData: any;
 	let items: { label: string | undefined; weight: Number | undefined }[] = [];
 	let gambleData;
 
 	$: $gambles.forEach((gamble) => {
 		gambleData = gamble;
 		if (gamble.users != undefined) {
-			const gambleUserData = gamble.users.map((user) => ({
+			gambleUserData = gamble.users.map((user) => ({
 				label: user.userNickname,
 				weight: user.balanceDrop
 			}));
