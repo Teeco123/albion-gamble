@@ -10,7 +10,7 @@ export const actions = {
 		const server = data.get('server');
 
 		if (!username || !password || !server) {
-			return { missing: true };
+			return;
 		}
 
 		let userData;
@@ -25,7 +25,7 @@ export const actions = {
 		});
 
 		if (userData) {
-			return { exists: true };
+			return;
 		}
 
 		if (!userData && password && username) {
