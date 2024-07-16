@@ -1,4 +1,4 @@
-import { firestore } from '$lib/firebase/index.js';
+import { firestore } from '$lib/firebase/server';
 import { redirect } from '@sveltejs/kit';
 import { query, collection, where, getDocs, addDoc, serverTimestamp } from 'firebase/firestore';
 

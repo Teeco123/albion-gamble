@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { query, collection, where, getDocs } from 'firebase/firestore';
-	import { firestore } from '$lib/firebase/index.js';
+	import { firestore } from '$lib/firebase/client';
 	import toast from 'svelte-french-toast';
 
 	//Toast notif

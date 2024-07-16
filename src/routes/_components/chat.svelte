@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { collection, query, orderBy, limit } from 'firebase/firestore';
 	import { enhance } from '$app/forms';
-	import { firestore } from '$lib/firebase';
+	import { firestore } from '$lib/firebase/client';
 	import { collectionStore } from 'sveltefire';
 	import toast from 'svelte-french-toast';
 

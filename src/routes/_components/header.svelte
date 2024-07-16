@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { firestore } from '$lib/firebase';
+	import { firestore } from '$lib/firebase/client';
 	import { docStore } from 'sveltefire';
 
 	export let data;

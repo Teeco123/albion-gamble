@@ -13,7 +13,7 @@ import {
 	arrayUnion,
 	increment
 } from 'firebase/firestore';
-import { firestore } from '$lib/firebase';
+import { firestore } from '$lib/firebase/server';
 import { redirect } from '@sveltejs/kit';
 
 export const load = async ({ cookies }) => {

@@ -1,4 +1,4 @@
-import { firestore } from '$lib/firebase';
+import { firestore } from '$lib/firebase/server';
 import type { Handle } from '@sveltejs/kit';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 

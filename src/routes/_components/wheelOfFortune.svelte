@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	//@ts-ignore
 	import { Wheel } from 'spin-wheel';
-	import { firestore } from '$lib/firebase';
+	import { firestore } from '$lib/firebase/client';
 	import {
 		collection,
 		limit,
