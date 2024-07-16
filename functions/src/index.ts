@@ -7,9 +7,12 @@ initializeApp();
 export const createGamble = onSchedule('every minute', async () => {
 	const serverTime = Timestamp.now();
 
-	await getFirestore().collection('gambles').add({
-		date: serverTime,
-		totalPlayers: 0,
-		totalSilver: 0
-	});
+	await getFirestore()
+		.collection('gambles')
+		.add({
+			date: serverTime,
+			totalPlayers: 0,
+			totalSilver: 0,
+			users: [{ userNickname: '', balanceDrop: 0 }]
+		});
 });
