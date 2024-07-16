@@ -146,10 +146,13 @@ export const actions = {
 				});
 
 				//Update gamble doc with new info
+
+				const uuid = crypto.randomUUID();
 				await setDoc(
 					doc(firestore, 'gambles', gambleId),
 					{
 						users: arrayUnion({
+							uuid: uuid,
 							userId: userId,
 							userNickname: userData.username,
 							balanceDrop: Number(silver)
