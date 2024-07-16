@@ -26,26 +26,6 @@
 		users: [{ balanceDrop?: Number; userId?: string; userNickname?: string }];
 	}
 
-	const gambleQuery = query(collection(firestore, 'gambles'), orderBy('date', 'desc'), limit(1));
-	//@ts-ignore
-	const gambles = collectionStore<Gamble>(firestore, gambleQuery);
-
-	let items: { label: string | undefined; weight: Number | undefined }[] = [];
-	let gambleData;
-
-	$: $gambles.forEach((gamble) => {
-		gambleData = gamble;
-		if (gamble.users != undefined) {
-			const gambleUserData = gamble.users.map((user) => ({
-				label: user.userNickname,
-				weight: user.balanceDrop
-			}));
-			items.push(...gambleUserData);
-		}
-	});
-
-	let wheelElement: HTMLElement;
-
 	//Toast notif
 	let silver: number;
 	async function submitInputSilver() {
@@ -72,27 +52,40 @@
 		}
 	}
 
+	let wheelElement: HTMLElement;
+	let wheel: any;
+
 	onMount(() => {
-		let wheel = new Wheel(wheelElement);
+		wheel = new Wheel(wheelElement);
 		wheel.isInteractive = false;
 		wheel.radius = 1;
 		wheel.debug = true;
-		wheel.items = [{ label: 'Teeco' }];
+	});
 
-		const test = [
-			{ label: 'Teeco123', weight: 1 },
-			{ label: 'Teeco123', weight: 2 }
-		];
-		console.log(test);
-		console.log(items);
+	const gambleQuery = query(collection(firestore, 'gambles'), orderBy('date', 'desc'), limit(1));
+	//@ts-ignore
+	const gambles = collectionStore<Gamble>(firestore, gambleQuery);
+
+	let items: { label: string | undefined; weight: Number | undefined }[] = [];
+	let gambleData;
+
+	$: $gambles.forEach((gamble) => {
+		gambleData = gamble;
+		if (gamble.users != undefined) {
+			const gambleUserData = gamble.users.map((user) => ({
+				label: user.userNickname,
+				weight: user.balanceDrop
+			}));
+			items.push(...gambleUserData);
+			console.log(gambleUserData);
+			wheel.items = gambleUserData;
+		}
 	});
 </script>
 
 <div class="wheel-of-fortune">
 	<div class="betting">
-		{#key items}
-			<div bind:this={wheelElement} class="wheel"></div>
-		{/key}
+		<div bind:this={wheelElement} class="wheel"></div>
 		<form method="POST" action="?/inputSilver" use:enhance>
 			<input type="number" name="silver" placeholder="Silver" bind:value={silver} />
 			<button type="submit" on:click={submitInputSilver}>
