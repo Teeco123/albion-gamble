@@ -24,7 +24,7 @@
 	//Toast notif
 	let message: string;
 	function submitMessage() {
-		if (!message) {
+		if (!message || !message.trim().length) {
 			toast.error("Can't send empty message");
 		}
 	}

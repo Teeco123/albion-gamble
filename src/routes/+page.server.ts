@@ -73,9 +73,11 @@ export const actions = {
 	},
 	sendMessage: async ({ request, cookies }) => {
 		const data = await request.formData();
-		const message = data.get('message');
+		const messageData = data.get('message');
 
-		if (message) {
+		const message = messageData?.toString();
+
+		if (message && message.trim().length) {
 			let sessionId = cookies.get('sessionId');
 
 			if (sessionId == undefined) {
