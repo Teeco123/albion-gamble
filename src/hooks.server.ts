@@ -1,6 +1,28 @@
 import { firestore } from '$lib/firebase/server';
 import type { Handle } from '@sveltejs/kit';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import {
+	collection,
+	getDocs,
+	query,
+	where,
+	Timestamp,
+	addDoc,
+	serverTimestamp
+} from 'firebase/firestore';
+import { Cron } from 'croner';
+
+async function CreateGamble() {
+	let serverTime = serverTimestamp();
+	await addDoc(collection(firestore, 'gambles'), {
+		date: serverTime,
+		totalPlayers: 0,
+		totalSilver: 0,
+		users: [{ userNickname: '', balanceDrop: 1 }]
+	});
+}
+Cron('* * * * *', () => {
+	CreateGamble();
+});
 
 export const handle: Handle = async ({ event, resolve }) => {
 	let sessionId = event.cookies.get('sessionId');
