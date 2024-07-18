@@ -17,7 +17,7 @@ async function CreateGamble() {
 		date: serverTime,
 		totalPlayers: 0,
 		totalSilver: 0,
-		users: [{ userNickname: '', balanceDrop: 1 }]
+		users: [{ userNickname: '', balanceDrop: 0.00000000000000000000000000000000001 }]
 	});
 }
 Cron('* * * * *', () => {
