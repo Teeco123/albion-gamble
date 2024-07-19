@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  sveltekit:
+    build: ./sveltekit
+    ports:
+      - "3000:3000"
+
+  caddy:
+    build: ./caddy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
