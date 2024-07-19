@@ -20,4 +20,4 @@ WORKDIR /app
 
 EXPOSE 3000
 
-CMD ["node -r dotenv/config server.js"]
+CMD node -r dotenv/config server.js
