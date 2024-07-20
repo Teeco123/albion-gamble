@@ -1,8 +1,11 @@
 albiongamble.win {
 
-    tls internal
-
     reverse_proxy sveltekit:3000
+
+    tls {
+        dns cloudflare ZPWlkEgwikCrPmn_H1IYgjUJ9_i2OfuvhnoiRnWX
+        resolvers 1.1.1.1
+    }
 }
 
 
