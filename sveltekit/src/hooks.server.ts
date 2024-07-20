@@ -5,9 +5,10 @@ import {
 	getDocs,
 	query,
 	where,
-	Timestamp,
 	addDoc,
-	serverTimestamp
+	serverTimestamp,
+	orderBy,
+	limit
 } from 'firebase/firestore';
 import { Cron } from 'croner';
 import { pusherServer } from '$lib/pusher/server';
@@ -16,19 +17,46 @@ async function CreateGamble() {
 	let serverTime = serverTimestamp();
 	await addDoc(collection(firestore, 'gambles'), {
 		date: serverTime,
-		totalPlayers: 0,
+		totalPlayers: 1,
 		totalSilver: 0,
 		users: [{ userNickname: '', balanceDrop: 0.00000000000000000000000000000000001 }]
 	});
 }
+
+async function SpinWheel() {
+	let gambleData: any;
+	let users = new Array();
+
+	const gambleQuery = query(collection(firestore, 'gambles'), orderBy('date', 'desc'), limit(1));
+	const gambleSnapshot = await getDocs(gambleQuery);
+	gambleSnapshot.forEach((gambleDoc) => {
+		gambleData = gambleDoc.data();
+	});
+
+	for (let x = 0; x < gambleData.totalPlayers; x++) {
+		users.push({
+			user: gambleData.users[x].userNickname,
+			balance: gambleData.users[x].balanceDrop
+		});
+	}
+
+	console.log(users);
+
+	for (let x = 0; x < gambleData.totalPlayers; x++) {
+		users[x].balance = users[x].balance / gambleData.totalSilver;
+	}
+
+	console.log(users);
+
+	pusherServer.trigger('channel', 'event', {});
+}
+
 Cron('* * * * *', () => {
 	CreateGamble();
 });
 
 Cron('45 * * * * *', () => {
-	pusherServer.trigger('channel', 'event', {
-		message: 'hello world'
-	});
+	SpinWheel();
 });
 
 export const handle: Handle = async ({ event, resolve }) => {
