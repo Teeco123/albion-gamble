@@ -1,8 +1,8 @@
 albiongamble.win {
 
-    tls /etc/ssl/certs/albiongamble.pem /etc/ssl/certs/albiongamble.key
+    tls internal
 
-    reverse_proxy :3000
+    reverse_proxy sveltekit:3000
 }
 
 
