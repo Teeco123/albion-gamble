@@ -1,3 +1,5 @@
-192.168.100.2:80
+albiongamble.win
 
-reverse_proxy 192.168.100.2:3000
+    reverse_proxy :3000
+
+
