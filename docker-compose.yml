@@ -15,3 +15,10 @@ services:
       - "443:443/udp"
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+  cloudflare-ddns:
+    image: oznu/cloudflare-ddns:latest
+    restart: always
+    environment:
+      - API_KEY=e88qeDadRXr1b3s8RuFKfQAInwxBorD9hs2Qn69C
+      - ZONE=albiongamble.win
+      - PROXIED=false
