@@ -28,11 +28,6 @@ services:
       - ZONE=albiongamble.win
       - PROXIED=false
 
-  soketi:
-    build: ./soketi
-    ports:
-      - "3001:3001"
-
 volumes:
   caddy_data:
   caddy_config:

@@ -3,8 +3,8 @@ import { env } from '$env/dynamic/private';
 
 export const pusherServer = new PusherServer({
 	appId: env.PUSHER_APP_ID as string,
-	key: '99c59095535b5193797a',
+	key: env.PUSHER_KEY as string,
 	secret: env.PUSHER_SECRET as string,
-	cluster: 'eu',
+	cluster: env.PUSHER_CLUSTER as string,
 	useTLS: true
 });
