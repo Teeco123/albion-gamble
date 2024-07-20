@@ -1,0 +1,5 @@
+.:53 {
+    hosts {
+        nig.albiongamble.win 192.168.100.2
+    }
+}

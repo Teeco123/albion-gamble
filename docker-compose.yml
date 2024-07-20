@@ -28,6 +28,11 @@ services:
       - ZONE=albiongamble.win
       - SUBDOMAIN=nig
       - PROXIED=false
+  
+  core-dns:
+    build: ./coreDNS
+    ports:
+      - "53:53"
 
 volumes:
   caddy_data:
