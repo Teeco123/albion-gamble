@@ -64,8 +64,8 @@
 
 		const channel = pusherClient.subscribe('channel');
 
-		channel.bind('event', (data: any) => {
-			console.log(data);
+		channel.bind('event', function (data: any) {
+			wheel.spin(10000);
 		});
 	});
 
