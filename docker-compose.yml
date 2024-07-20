@@ -9,12 +9,17 @@ services:
 
   caddy:
     build: ./caddy
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
     ports:
       - "80:80"
       - "443:443"
       - "443:443/udp"
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
   cloudflare-ddns:
     image: oznu/cloudflare-ddns:latest
     restart: always
@@ -22,3 +27,7 @@ services:
       - API_KEY=e88qeDadRXr1b3s8RuFKfQAInwxBorD9hs2Qn69C
       - ZONE=albiongamble.win
       - PROXIED=false
+
+volumes:
+  caddy_data:
+  caddy_config:
