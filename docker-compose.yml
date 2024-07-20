@@ -26,6 +26,7 @@ services:
     environment:
       - API_KEY=e88qeDadRXr1b3s8RuFKfQAInwxBorD9hs2Qn69C
       - ZONE=albiongamble.win
+      - SUBDOMAIN=nig
       - PROXIED=false
 
 volumes:
