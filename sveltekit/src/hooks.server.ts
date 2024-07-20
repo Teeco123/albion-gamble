@@ -24,6 +24,10 @@ Cron('* * * * *', () => {
 	CreateGamble();
 });
 
+Cron('45 * * * * *', () => {
+	console.log('spin wheel');
+});
+
 export const handle: Handle = async ({ event, resolve }) => {
 	let sessionId = event.cookies.get('sessionId');
 
