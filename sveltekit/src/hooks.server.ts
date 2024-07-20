@@ -10,6 +10,7 @@ import {
 	serverTimestamp
 } from 'firebase/firestore';
 import { Cron } from 'croner';
+import { pusherServer } from '$lib/pusher/server';
 
 async function CreateGamble() {
 	let serverTime = serverTimestamp();
@@ -25,7 +26,9 @@ Cron('* * * * *', () => {
 });
 
 Cron('45 * * * * *', () => {
-	console.log('spin wheel');
+	pusherServer.trigger('channel', 'event', {
+		message: 'hello world'
+	});
 });
 
 export const handle: Handle = async ({ event, resolve }) => {

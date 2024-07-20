@@ -16,6 +16,7 @@
 	import { onMount } from 'svelte';
 	import { collectionStore } from 'sveltefire';
 	import toast from 'svelte-french-toast';
+	import { pusherClient } from '$lib/pusher/client';
 
 	export let data: any;
 
@@ -60,6 +61,12 @@
 		wheel.isInteractive = false;
 		wheel.radius = 1;
 		wheel.items = [{}];
+
+		const channel = pusherClient.subscribe('channel');
+
+		channel.bind('event', (data: any) => {
+			console.log(data);
+		});
 	});
 
 	const gambleQuery = query(collection(firestore, 'gambles'), orderBy('date', 'desc'), limit(1));
