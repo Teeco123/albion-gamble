@@ -1,5 +1,9 @@
-albiongamble.win
+albiongamble.win {
+
+    tls /etc/ssl/certs/albiongamble.pem /etc/ssl/certs/albiongamble.key
 
     reverse_proxy :3000
+}
+
 
 
