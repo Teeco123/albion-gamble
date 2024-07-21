@@ -103,13 +103,15 @@
 <div class="wheel-of-fortune">
 	<div class="betting">
 		<div bind:this={wheelElement} class="wheel"></div>
-		{#if !isSpinning}
-			<form method="POST" action="?/inputSilver" use:enhance>
-				<input type="number" name="silver" placeholder="Silver" bind:value={silver} />
-				<button type="submit" on:click={submitInputSilver}>
-					<img src="/icons/place item.png" alt="send" />
-				</button>
-			</form>
+		{#if data.userId}
+			{#if !isSpinning}
+				<form method="POST" action="?/inputSilver" use:enhance>
+					<input type="number" name="silver" placeholder="Silver" bind:value={silver} />
+					<button type="submit" on:click={submitInputSilver}>
+						<img src="/icons/place item.png" alt="send" />
+					</button>
+				</form>
+			{/if}
 		{/if}
 	</div>
 	<!--
