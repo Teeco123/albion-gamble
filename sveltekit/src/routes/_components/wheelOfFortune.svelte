@@ -132,56 +132,56 @@
 <style lang="scss">
 	.wheel-of-fortune {
 		background-color: #0e1215;
-		flex-grow: 100;
 		margin: 8px;
 		border-radius: 10px;
 		max-height: 80%;
-	}
-	.betting {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin: 36px;
-		max-height: 80%;
-		.wheel {
-			max-height: 40vh;
-			width: 40vh;
-		}
-		form {
+		flex-grow: 100;
+		.betting {
 			display: flex;
-			justify-content: center;
-			margin-top: 10vh;
-
-			input {
-				height: 5vh;
-				border: none;
-				background-color: #533674;
-				border-radius: 10px;
-				text-align: center;
-				color: #eaf1f5;
-				font-size: 1rem;
-				&::placeholder {
-					color: #eaf1f5ad;
-				}
-				&::-webkit-inner-spin-button {
-					-webkit-appearance: none;
-					margin: 0;
-				}
-				&:focus-visible {
-					outline: none;
-				}
+			flex-direction: column;
+			align-items: center;
+			max-width: 100%;
+			height: calc(100% - 32px);
+			margin: 16px;
+			.wheel {
+				height: 80%;
+				width: 80%;
 			}
-			button {
-				border: none;
-				margin-left: 16px;
-				border-radius: 10px;
-				background-color: #533674;
-				img {
-					height: 4vh;
-					width: 2.6vw;
+			form {
+				display: flex;
+				height: 12%;
+				margin-top: 4vh;
+				input {
+					height: 100%;
+					border: none;
+					background-color: #533674;
+					border-radius: 10px;
+					text-align: center;
+					color: #eaf1f5;
+
+					&::placeholder {
+						color: #eaf1f5ad;
+					}
+					&::-webkit-inner-spin-button {
+						-webkit-appearance: none;
+						margin: 0;
+					}
+					&:focus-visible {
+						outline: none;
+					}
 				}
-				&:hover {
-					cursor: pointer;
+				button {
+					height: 100%;
+					border: none;
+					margin-left: 16px;
+					border-radius: 10px;
+					background-color: #533674;
+					img {
+						height: 100%;
+					}
+					&:hover {
+						cursor: pointer;
+					}
 				}
 			}
 		}
