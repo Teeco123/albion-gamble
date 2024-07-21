@@ -11,6 +11,7 @@ import {
 	limit
 } from 'firebase/firestore';
 import { Cron } from 'croner';
+import { Chance } from 'chance';
 import { pusherServer } from '$lib/pusher/server';
 
 async function CreateGamble() {
@@ -24,8 +25,10 @@ async function CreateGamble() {
 }
 
 async function SpinWheel() {
+	let chance = new Chance();
 	let gambleData: any;
 	let users = new Array();
+	let silver = new Array();
 
 	const gambleQuery = query(collection(firestore, 'gambles'), orderBy('date', 'desc'), limit(1));
 	const gambleSnapshot = await getDocs(gambleQuery);
@@ -34,19 +37,11 @@ async function SpinWheel() {
 	});
 
 	for (let x = 0; x < gambleData.totalPlayers; x++) {
-		users.push({
-			user: gambleData.users[x].userNickname,
-			balance: gambleData.users[x].balanceDrop
-		});
+		users.push(gambleData.users[x].userNickname);
+		silver.push(gambleData.users[x].balanceDrop);
 	}
 
-	console.log(users);
-
-	for (let x = 0; x < gambleData.totalPlayers; x++) {
-		users[x].balance = users[x].balance / gambleData.totalSilver;
-	}
-
-	console.log(users);
+	const winner = chance.weighted(users, silver);
 
 	pusherServer.trigger('channel', 'event', {});
 }
