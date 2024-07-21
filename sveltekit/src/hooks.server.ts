@@ -22,6 +22,7 @@ async function CreateGamble() {
 	await addDoc(collection(firestore, 'gambles'), {
 		date: serverTime,
 		isSpinning: false,
+		winner: null,
 		totalPlayers: 1,
 		totalSilver: 0,
 		users: [{ userNickname: '', balanceDrop: 0.00000000000000000000000000000000001 }]
@@ -96,6 +97,7 @@ async function SpinWheel() {
 				{ balance: increment(gambleData.totalSilver) },
 				{ merge: true }
 			);
+			setDoc(doc(firestore, 'gambles', gambleId), { winner: winnerName }, { merge: true });
 		}
 
 		setTimeout(UpdateBalance, 10000);

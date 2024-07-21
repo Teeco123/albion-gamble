@@ -17,12 +17,14 @@
 	import { collectionStore } from 'sveltefire';
 	import toast from 'svelte-french-toast';
 	import { pusherClient } from '$lib/pusher/client';
+	import { scale } from 'svelte/transition';
 
 	export let data: any;
 
 	interface Gamble {
 		date?: Timestamp;
 		isSpinning: boolean;
+		winner: string;
 		totalPlayers?: Number;
 		totalSilver?: Number;
 		users: [{ balanceDrop?: Number; userId?: string; userNickname?: string }];
@@ -81,10 +83,10 @@
 	let items: { label: string | undefined; weight: Number | undefined }[] = [];
 	let gambleData: any;
 	let isSpinning: any;
+	let winner: any;
 
 	$: $gambles.forEach((gamble) => {
 		gambleData = gamble;
-		isSpinning;
 		if (gamble.users != undefined) {
 			gambleUserData = gamble.users.map((user) => ({
 				label: user.userNickname,
@@ -94,9 +96,8 @@
 			wheel.items = gambleUserData;
 		}
 
-		if (gamble.isSpinning != undefined) {
-			isSpinning = gamble.isSpinning;
-		}
+		isSpinning = gamble.isSpinning;
+		winner = gamble.winner;
 	});
 </script>
 
@@ -114,7 +115,6 @@
 			{/if}
 		{/if}
 	</div>
-
 	<div class="gamble-info">
 		{#each $gambles as gamble}
 			<div class="total-info">
@@ -132,6 +132,13 @@
 			{/if}
 		{/each}
 	</div>
+	{#if winner != null}
+		<div in:scale out:scale class="winner-popup">
+			<img src="/icons/star.png" alt="star" />
+			{winner}
+			<img src="/icons/star.png" alt="star" />
+		</div>
+	{/if}
 </div>
 
 <style lang="scss">
@@ -275,6 +282,27 @@
 				&::-webkit-scrollbar-thumb:active {
 					background-color: #4f336e;
 				}
+			}
+		}
+		.winner-popup {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: fixed;
+			border-radius: 10px;
+			left: 50%;
+			top: 50%;
+			height: 10vh;
+			width: 30vw;
+			background-color: #4f336e;
+			-ms-transform: translate(-50%, -50%);
+			-moz-transform: translate(-50%, -50%);
+			-webkit-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+			color: #eaf1f5;
+			img {
+				width: 20%;
+				margin: 5%;
 			}
 		}
 	}
