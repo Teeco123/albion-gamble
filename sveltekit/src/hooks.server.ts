@@ -100,7 +100,7 @@ async function SpinWheel() {
 
 		setTimeout(UpdateBalance, 10000);
 	}
-	//setDoc(doc(firestore, 'gambles', gambleId), { isSpinning: true }, { merge: true });
+	setDoc(doc(firestore, 'gambles', gambleId), { isSpinning: true }, { merge: true });
 }
 
 Cron('* * * * *', () => {
