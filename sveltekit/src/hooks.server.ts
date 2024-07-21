@@ -89,18 +89,18 @@ async function SpinWheel() {
 			winnerName: winnerName,
 			winnerSilver: winnerSilver
 		});
+
+		function UpdateBalance() {
+			setDoc(
+				doc(firestore, 'users', winnerId),
+				{ balance: increment(gambleData.totalSilver) },
+				{ merge: true }
+			);
+		}
+
+		setTimeout(UpdateBalance, 10000);
 	}
 	setDoc(doc(firestore, 'gambles', gambleId), { isSpinning: true }, { merge: true });
-
-	function UpdateBalance() {
-		setDoc(
-			doc(firestore, 'users', winnerId),
-			{ balance: increment(gambleData.totalSilver) },
-			{ merge: true }
-		);
-	}
-
-	setTimeout(UpdateBalance, 10000);
 }
 
 Cron('* * * * *', () => {
