@@ -72,11 +72,12 @@ async function SpinWheel() {
 
 	console.log(winnerIndex, winnerName, winnerSilver);
 	// Send notification or perform further actions based on the winner
-	pusherServer.trigger('wheelOfFortune', 'SpinWheel', {
-		winnerIndex: winnerIndex,
-		winnerName: winnerName,
-		winnerSilver: winnerSilver
-	});
+	if (winnerIndex != 0)
+		pusherServer.trigger('wheelOfFortune', 'SpinWheel', {
+			winnerIndex: winnerIndex,
+			winnerName: winnerName,
+			winnerSilver: winnerSilver
+		});
 }
 
 Cron('* * * * *', () => {
