@@ -22,6 +22,7 @@
 
 	interface Gamble {
 		date?: Timestamp;
+		isSpinning: boolean;
 		totalPlayers?: Number;
 		totalSilver?: Number;
 		users: [{ balanceDrop?: Number; userId?: string; userNickname?: string }];
@@ -55,7 +56,6 @@
 
 	let wheelElement: HTMLElement;
 	let wheel: any;
-	let isSpinning: boolean;
 
 	onMount(() => {
 		wheel = new Wheel(wheelElement);
@@ -65,13 +65,11 @@
 
 		const channel = pusherClient.subscribe('wheelOfFortune');
 
-		channel.bind('CreateGamble', function () {
-			isSpinning = false;
-		});
+		channel.bind('CreateGamble', function () {});
 
 		channel.bind('SpinWheel', function (data: any) {
 			const winnerIndex = data.winnerIndex;
-			isSpinning = true;
+
 			wheel.spinToItem(winnerIndex, 10000, false, 10, 1, null);
 		});
 	});
@@ -81,10 +79,12 @@
 	const gambles = collectionStore<Gamble>(firestore, gambleQuery);
 	let gambleUserData: any;
 	let items: { label: string | undefined; weight: Number | undefined }[] = [];
-	let gambleData;
+	let gambleData: any;
+	let isSpinning: any;
 
 	$: $gambles.forEach((gamble) => {
 		gambleData = gamble;
+		isSpinning;
 		if (gamble.users != undefined) {
 			gambleUserData = gamble.users.map((user) => ({
 				label: user.userNickname,
@@ -92,6 +92,10 @@
 			}));
 			items.push(...gambleUserData);
 			wheel.items = gambleUserData;
+		}
+
+		if (gamble.isSpinning != undefined) {
+			isSpinning = gamble.isSpinning;
 		}
 	});
 </script>

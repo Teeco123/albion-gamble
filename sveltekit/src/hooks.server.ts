@@ -8,7 +8,9 @@ import {
 	addDoc,
 	serverTimestamp,
 	orderBy,
-	limit
+	limit,
+	setDoc,
+	doc
 } from 'firebase/firestore';
 import { Cron } from 'croner';
 import { pusherServer } from '$lib/pusher/server';
@@ -17,6 +19,7 @@ async function CreateGamble() {
 	let serverTime = serverTimestamp();
 	await addDoc(collection(firestore, 'gambles'), {
 		date: serverTime,
+		isSpinning: false,
 		totalPlayers: 1,
 		totalSilver: 0,
 		users: [{ userNickname: '', balanceDrop: 0.00000000000000000000000000000000001 }]
@@ -27,12 +30,14 @@ async function CreateGamble() {
 
 async function SpinWheel() {
 	let gambleData: any;
+	let gambleId: any;
 	let users = new Array();
 	let silver = new Array();
 
 	const gambleQuery = query(collection(firestore, 'gambles'), orderBy('date', 'desc'), limit(1));
 	const gambleSnapshot = await getDocs(gambleQuery);
 	gambleSnapshot.forEach((gambleDoc) => {
+		gambleId = gambleDoc.id;
 		gambleData = gambleDoc.data();
 	});
 
@@ -72,12 +77,15 @@ async function SpinWheel() {
 
 	console.log(winnerIndex, winnerName, winnerSilver);
 	// Send notification or perform further actions based on the winner
-	if (winnerIndex != 0)
+	if (winnerIndex != 0) {
+		setDoc(doc(firestore, 'gambles', gambleId), { isSpinning: true }, { merge: true });
 		pusherServer.trigger('wheelOfFortune', 'SpinWheel', {
 			winnerIndex: winnerIndex,
 			winnerName: winnerName,
 			winnerSilver: winnerSilver
 		});
+	}
+	setDoc(doc(firestore, 'gambles', gambleId), { isSpinning: true }, { merge: true });
 }
 
 Cron('* * * * *', () => {
