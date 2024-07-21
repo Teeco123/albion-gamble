@@ -22,6 +22,8 @@ async function CreateGamble() {
 		totalSilver: 0,
 		users: [{ userNickname: '', balanceDrop: 0.00000000000000000000000000000000001 }]
 	});
+
+	pusherServer.trigger('wheelOfFortune', 'CreateGamble', {});
 }
 
 async function SpinWheel() {
@@ -43,7 +45,7 @@ async function SpinWheel() {
 
 	const winner = chance.weighted(users, silver);
 
-	pusherServer.trigger('channel', 'event', {});
+	pusherServer.trigger('wheelOfFortune', 'SpinWheel', {});
 }
 
 Cron('* * * * *', () => {

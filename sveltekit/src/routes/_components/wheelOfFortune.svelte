@@ -55,6 +55,7 @@
 
 	let wheelElement: HTMLElement;
 	let wheel: any;
+	let isSpinning: boolean;
 
 	onMount(() => {
 		wheel = new Wheel(wheelElement);
@@ -62,10 +63,15 @@
 		wheel.radius = 1;
 		wheel.items = [{}];
 
-		const channel = pusherClient.subscribe('channel');
+		const channel = pusherClient.subscribe('wheelOfFortune');
 
-		channel.bind('event', function (data: any) {
-			wheel.spin(10000);
+		channel.bind('CreateGamble', function () {
+			isSpinning = false;
+		});
+
+		channel.bind('SpinWheel', function () {
+			isSpinning = true;
+			wheel.spin(100000);
 		});
 	});
 
@@ -84,7 +90,6 @@
 				weight: user.balanceDrop
 			}));
 			items.push(...gambleUserData);
-			console.log(gambleUserData);
 			wheel.items = gambleUserData;
 		}
 	});
@@ -93,12 +98,14 @@
 <div class="wheel-of-fortune">
 	<div class="betting">
 		<div bind:this={wheelElement} class="wheel"></div>
-		<form method="POST" action="?/inputSilver" use:enhance>
-			<input type="number" name="silver" placeholder="Silver" bind:value={silver} />
-			<button type="submit" on:click={submitInputSilver}>
-				<img src="/icons/place item.png" alt="send" />
-			</button>
-		</form>
+		{#if !isSpinning}
+			<form method="POST" action="?/inputSilver" use:enhance>
+				<input type="number" name="silver" placeholder="Silver" bind:value={silver} />
+				<button type="submit" on:click={submitInputSilver}>
+					<img src="/icons/place item.png" alt="send" />
+				</button>
+			</form>
+		{/if}
 	</div>
 	<!--
 	<div class="gamble-info">
