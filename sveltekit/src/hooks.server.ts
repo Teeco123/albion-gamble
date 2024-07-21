@@ -10,7 +10,9 @@ import {
 	orderBy,
 	limit,
 	setDoc,
-	doc
+	doc,
+	getDoc,
+	increment
 } from 'firebase/firestore';
 import { Cron } from 'croner';
 import { pusherServer } from '$lib/pusher/server';
@@ -32,7 +34,6 @@ async function SpinWheel() {
 	let gambleData: any;
 	let gambleId: any;
 	let users = new Array();
-	let silver = new Array();
 
 	const gambleQuery = query(collection(firestore, 'gambles'), orderBy('date', 'desc'), limit(1));
 	const gambleSnapshot = await getDocs(gambleQuery);
@@ -43,8 +44,11 @@ async function SpinWheel() {
 
 	// Extract users and weights (assuming balanceDrop represents weight)
 	for (let x = 0; x < gambleData.totalPlayers; x++) {
-		users.push({ name: gambleData.users[x].userNickname, weight: gambleData.users[x].balanceDrop });
-		silver.push(gambleData.users[x].balanceDrop);
+		users.push({
+			id: gambleData.users[x].userId,
+			name: gambleData.users[x].userNickname,
+			weight: gambleData.users[x].balanceDrop
+		});
 	}
 
 	// Function to determine winner using crypto randomness
@@ -72,6 +76,7 @@ async function SpinWheel() {
 
 	// Determine the winner
 	const winnerIndex = determineWinnerWithWeight(users);
+	const winnerId = users[winnerIndex].id;
 	const winnerName = users[winnerIndex].name;
 	const winnerSilver = users[winnerIndex].weight;
 
@@ -86,6 +91,16 @@ async function SpinWheel() {
 		});
 	}
 	setDoc(doc(firestore, 'gambles', gambleId), { isSpinning: true }, { merge: true });
+
+	function UpdateBalance() {
+		setDoc(
+			doc(firestore, 'users', winnerId),
+			{ balance: increment(gambleData.totalSilver) },
+			{ merge: true }
+		);
+	}
+
+	setTimeout(UpdateBalance, 10000);
 }
 
 Cron('* * * * *', () => {
