@@ -69,9 +69,10 @@
 			isSpinning = false;
 		});
 
-		channel.bind('SpinWheel', function () {
+		channel.bind('SpinWheel', function (data: any) {
+			const winnerIndex = data.winnerIndex;
 			isSpinning = true;
-			wheel.spin(100000);
+			wheel.spinToItem(winnerIndex, 10000, false, 10, 1, null);
 		});
 	});
 

@@ -11,7 +11,6 @@ import {
 	limit
 } from 'firebase/firestore';
 import { Cron } from 'croner';
-import { Chance } from 'chance';
 import { pusherServer } from '$lib/pusher/server';
 
 async function CreateGamble() {
@@ -27,7 +26,6 @@ async function CreateGamble() {
 }
 
 async function SpinWheel() {
-	let chance = new Chance();
 	let gambleData: any;
 	let users = new Array();
 	let silver = new Array();
@@ -38,14 +36,47 @@ async function SpinWheel() {
 		gambleData = gambleDoc.data();
 	});
 
+	// Extract users and weights (assuming balanceDrop represents weight)
 	for (let x = 0; x < gambleData.totalPlayers; x++) {
-		users.push(gambleData.users[x].userNickname);
+		users.push({ name: gambleData.users[x].userNickname, weight: gambleData.users[x].balanceDrop });
 		silver.push(gambleData.users[x].balanceDrop);
 	}
 
-	const winner = chance.weighted(users, silver);
+	// Function to determine winner using crypto randomness
+	function determineWinnerWithWeight(users: any) {
+		// Calculate the total weight
+		const totalWeight = users.reduce((acc: any, user: any) => acc + user.weight, 0);
 
-	pusherServer.trigger('wheelOfFortune', 'SpinWheel', {});
+		// Generate a cryptographically secure random number
+		const randomBuffer = new Uint32Array(1);
+		crypto.getRandomValues(randomBuffer);
+		const randomNumber = (randomBuffer[0] / (0xffffffff + 1)) * totalWeight; // Normalize to 0-totalWeight range
+
+		// Find the winner
+		let accumulatedWeight = 0;
+		for (let i = 0; i < users.length; i++) {
+			accumulatedWeight += users[i].weight;
+			if (accumulatedWeight >= randomNumber) {
+				return i; // Return the winner's name
+			}
+		}
+
+		// Handle the unlikely case where the loop finishes without finding a winner
+		return users[users.length - 1].name; // Return the last user's name as a fallback
+	}
+
+	// Determine the winner
+	const winnerIndex = determineWinnerWithWeight(users);
+	const winnerName = users[winnerIndex].name;
+	const winnerSilver = users[winnerIndex].weight;
+
+	console.log(winnerIndex, winnerName, winnerSilver);
+	// Send notification or perform further actions based on the winner
+	pusherServer.trigger('wheelOfFortune', 'SpinWheel', {
+		winnerIndex: winnerIndex,
+		winnerName: winnerName,
+		winnerSilver: winnerSilver
+	});
 }
 
 Cron('* * * * *', () => {
