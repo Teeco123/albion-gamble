@@ -114,23 +114,36 @@
 			{/if}
 		{/if}
 	</div>
-	<!--
+
 	<div class="gamble-info">
 		{#each $gambles as gamble}
-			<p>Total Silver:{gamble.totalSilver}</p>
-			<p>Total Players:{gamble.totalPlayers}</p>
+			<div class="total-info">
+				<p>Total Silver:{gamble.totalSilver}</p>
+				<p>Total Players:{gamble.totalPlayers}</p>
+			</div>
 			{#if gamble.users}
-				{#each gamble.users as user}
-					<p>Player:{user.userNickname} Silver:{user.balanceDrop}</p>
-				{/each}
+				<div class="users-info">
+					{#each gamble.users as user, i}
+						{#if i > 0}
+							<p>Player:{user.userNickname} Silver:{user.balanceDrop}</p>
+						{/if}
+					{/each}
+				</div>
 			{/if}
 		{/each}
 	</div>
-	-->
 </div>
 
 <style lang="scss">
+	@import url('https://fonts.googleapis.com/css?family=Inter:700|Inter:400');
+
 	.wheel-of-fortune {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		font-family: 'Inter';
+		font-weight: 400;
+		font-size: 100%;
 		background-color: #0e1215;
 		margin: 8px;
 		border-radius: 10px;
@@ -145,7 +158,7 @@
 			margin: 16px;
 			.wheel {
 				height: 80%;
-				width: 80%;
+				width: 100%;
 			}
 			form {
 				display: flex;
@@ -182,6 +195,85 @@
 					&:hover {
 						cursor: pointer;
 					}
+				}
+			}
+		}
+		.gamble-info {
+			color: #eaf1f5;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			max-width: 50%;
+			height: calc(100% - 32px);
+			margin: 16px;
+			flex-wrap: nowrap;
+			.total-info {
+				display: flex;
+				p {
+					margin: 8px;
+				}
+			}
+			.users-info {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				overflow-y: auto;
+				width: 100%;
+				&::-webkit-scrollbar {
+					width: 6px;
+				}
+				&::-webkit-scrollbar-track {
+					border-radius: 7px;
+					background-color: #0e1215;
+				}
+
+				&::-webkit-scrollbar-track:hover {
+					background-color: #0e1215;
+				}
+
+				&::-webkit-scrollbar-track:active {
+					background-color: #0e1215;
+				}
+
+				&::-webkit-scrollbar-thumb {
+					border-radius: 5px;
+					background-color: #533674;
+				}
+
+				&::-webkit-scrollbar-thumb:hover {
+					background-color: #4f336e;
+				}
+
+				&::-webkit-scrollbar-thumb:active {
+					background-color: #4f336e;
+				}
+				&::-webkit-scrollbar {
+					width: 6px;
+				}
+				&::-webkit-scrollbar-track {
+					border-radius: 7px;
+					background-color: #0e1215;
+				}
+
+				&::-webkit-scrollbar-track:hover {
+					background-color: #0e1215;
+				}
+
+				&::-webkit-scrollbar-track:active {
+					background-color: #0e1215;
+				}
+
+				&::-webkit-scrollbar-thumb {
+					border-radius: 5px;
+					background-color: #533674;
+				}
+
+				&::-webkit-scrollbar-thumb:hover {
+					background-color: #4f336e;
+				}
+
+				&::-webkit-scrollbar-thumb:active {
+					background-color: #4f336e;
 				}
 			}
 		}
